@@ -1,7 +1,10 @@
-(ns parry.dev)
+(ns parry.dev
+  (:require [parry.core :as parry]))
+
+(def store (atom {:number 0}))
 
 (defn main []
-  (println "Loaded"))
+  (parry/init store))
 
 (defn ^:dev/after-load reload []
-  (println "Reloaded"))
+  (parry/init store))
