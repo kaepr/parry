@@ -1,0 +1,14 @@
+{:tasks
+ {install {:doc "Install npm dependencies"
+           :task (shell "npm install")}
+  
+  dev:tailwind {:doc "Start tailwindcss watch process"
+                :task (shell "npx tailwindcss -i src/main.css -o resources/public/css/main.css --watch")}
+  
+  dev:shadow {:doc "Start shadow-cljs development server"
+              :task (shell "npx shadow-cljs watch app")}
+  
+  -dev {:depends [dev:tailwind dev:shadow]}
+  
+  dev {:doc "Start both tailwind and shadow-cljs in parallel"
+       :task (run '-dev {:parallel true})}}}
