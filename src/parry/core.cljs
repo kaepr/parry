@@ -4,32 +4,23 @@
             [parry.ui.layout :as layout]
             [parry.ui.counter :as counter]
             [parry.ui.trainer :as trainer]
+            [parry.ui.header :as header]
+            [parry.ui.footer :as footer]
             [clojure.walk :as walk]))
 
 (def views
-  [{:id :counter
-    :text "Counter"}
-   {:id :trainer
-    :text "Parry Trainer"}
-   {:id :timer
-    :text "Timer"}])
+  [{:id :trainer
+    :text "Parry Trainer"}])
 
 (defn get-current-view [state]
   (or (:current-view state)
       (-> views first :id)))
 
 (defn render-ui [state]
-  (let [current-view (get-current-view state)]
-    [:div.m-8
-      (layout/tab-bar current-view views)
-      (case current-view
-        :counter
-        (counter/render-ui state)
-        :trainer
-        (trainer/render-ui state)
-        :timer
-        (timer/render-ui state)
-        [:h1 "Select something else."])]))
+  [:div
+   (header/render)
+   (trainer/render-ui state)
+   (footer/render)])
 
 (defn process-effect [store [effect & args]]
   (case effect
@@ -74,7 +65,6 @@
             elapsed (- now start-time)
             duration 4000 ; 4 seconds for full animation
             progress (min 1.0 (/ elapsed duration))]
-        (println "Animation update:" "now:" now "start:" start-time "elapsed:" elapsed "progress:" progress)
         (swap! store assoc-in [:trainer :cursor-position] progress)
         (when (>= progress 1.0)
           (swap! store update :trainer assoc

@@ -1,5 +1,10 @@
 (ns parry.ui.timer)
 
+(defn get-view-state [state]
+  {:pct 0
+   :elapsed "0s"
+   :duration 20})
+
 (defn render-ui [state]
   [:div
    [:h1 "Timer"]
