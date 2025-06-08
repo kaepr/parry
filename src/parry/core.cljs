@@ -63,7 +63,7 @@
       (let [now (.getTime (js/Date.))
             start-time (:animation-start trainer-state)
             elapsed (- now start-time)
-            duration 4000 ; 4 seconds for full animation
+            duration (or (:animation-duration trainer-state) 4000) ; Use pattern duration or fallback
             progress (min 1.0 (/ elapsed duration))]
         (swap! store assoc-in [:trainer :cursor-position] progress)
         (when (>= progress 1.0)
